@@ -5,11 +5,15 @@ application up and running.
 
 Things you may want to cover:
 
-* Ruby version
+* Ruby version 2.3.3
 
 * System dependencies
+-Postgres
+-Ruby on Rails
 
 * Configuration
+-run `bundle`
+-run `bundle exec rake db:create`
 
 * Database creation
 
