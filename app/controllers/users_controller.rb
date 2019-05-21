@@ -1,6 +1,7 @@
 require 'csv'
 require 'pg'
 require 'pry'
+require 'text'
 
 class UsersController < ApplicationController
 
@@ -25,17 +26,19 @@ class UsersController < ApplicationController
    end
   end
 
-  # makes the call to the database, invokes insert_user
+  # makes the call to the database, inserts all the users
   def get_users
-   select_users = "SELECT * FROM users"
+   select_all_users = "SELECT * FROM users"
    ingredients = insert_user do |conn|
-     conn.exec(select_users)
+     conn.exec(select_all_users)
     end
   end
 
 # Pulls it all together into index, invokes get_users
   def index
     self.get_users
+    puts(Text::Metaphone.metaphone('phone'))
+    @users = User.all
   end
 
 end

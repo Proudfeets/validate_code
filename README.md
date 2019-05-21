@@ -1,9 +1,6 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
+This program processes a csv file, normal.csv, and turns out the possible duplicate users.
 
 * Ruby version 2.3.3
 
@@ -14,10 +11,9 @@ Things you may want to cover:
 * Configuration
 -run `bundle`
 -run `bundle exec rake db:create`
+-run `rails db:migrate`
 
-* Database creation
 
-* Database initialization
 
 * How to run the test suite
 
