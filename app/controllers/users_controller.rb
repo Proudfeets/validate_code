@@ -1,7 +1,7 @@
-require 'csv'
-require 'pg'
-require 'pry'
-require 'text'
+require 'csv';
+require 'pg';
+require 'pry';
+require 'text';
 
 class UsersController < ApplicationController
 
@@ -34,11 +34,60 @@ class UsersController < ApplicationController
     end
   end
 
-# Pulls it all together into index, invokes get_users
-  def index
-    self.get_users
-    puts(Text::Metaphone.metaphone('phone'))
-    @users = User.all
+# this finds close spelling duplicates in the main array
+  def recheck(array)
+    probably_matches = []
+    array.each do |copy|
+        @users.each do |any_user|
+          name_matches = []
+            if Text::Levenshtein.distance(copy.first_name, any_user.first_name) <=1
+              name_matches << any_user
+            else if Text::Levenshtein.distance(copy.last_name, any_user.last_name) <=1
+              name_matches << any_user
+            else
+              true
+          end
+          # if name_matches.length >1
+          #   puts(name_matches[1].first_name)
+          #   puts(name_matches[2].first_name)
+          # end
+          puts(name_matches)
+        end
+      end
+      probably_matches.each do |user|
+        puts(user.first_name)
+      end
+    end
   end
+
+# finds potential matches based on first and last names sound
+  def metaphone_names
+    @users = User.all
+    all_first_names = []
+    all_last_names = []
+    second_copies = []
+    @users.each do |user|
+      if all_first_names.include?Text::Metaphone.metaphone(user.first_name);
+        second_copies << user
+        all_first_names << Text::Metaphone.metaphone(user.first_name)
+      else if all_last_names.include?Text::Metaphone.metaphone(user.last_name);
+        all_last_names << Text::Metaphone.metaphone(user.last_name)
+        second_copies << user
+      else
+        all_first_names << Text::Metaphone.metaphone(user.first_name)
+        all_last_names << Text::Metaphone.metaphone(user.last_name)
+      end
+      end
+    end
+    # .recheck finds names with similar spellings
+    self.recheck(second_copies)
+  end
+
+
+  # Pulls it all together into index, invokes get_users
+    def index
+      self.get_users
+      self.metaphone_names
+    end
 
 end

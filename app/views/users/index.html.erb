@@ -1,8 +1,10 @@
 <% require 'text' %>
 
-<h1>Users#index</h1>
 <% @users = User.all %>
-<p>Find me in app/views/users/index.html.erb</p>
+<h2>Likely Duplicate Users</h2>
+<% @duplicates = Duplicate.all %>
+<h2>Unique Users</h2>
+<% @uniques = Unique.all %>
 <table>
   <thead>
     <tr>
@@ -18,7 +20,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @users.each do |user| %>
+    <% @duplicates.each do |user| %>
       <tr>
         <td><%= user.first_name + " " + user.last_name%></td>
         <td> | <%= user.address1.to_s + ", " + user.address2.to_s %> </td>
