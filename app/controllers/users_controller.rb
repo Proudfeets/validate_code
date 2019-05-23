@@ -36,30 +36,27 @@ class UsersController < ApplicationController
   end
 
 # this finds close spelling duplicates in the main array
-  def recheck(array)
-    probably_matches = []
-    array.each do |copy|
-        @users.each do |any_user|
-          name_matches = []
-            if Text::Levenshtein.distance(copy.first_name, any_user.first_name) <=1
-              name_matches << any_user
-            else if Text::Levenshtein.distance(copy.last_name, any_user.last_name) <=1
-              name_matches << any_user
-            else
-              true
-          end
-          # if name_matches.length >1
-          #   puts(name_matches[1].first_name)
-          #   puts(name_matches[2].first_name)
-          # end
-          # puts(name_matches)
-        end
-      end
-      probably_matches.each do |user|
-        # puts(user.first_name)
-      end
-    end
-  end
+  # def recheck(array)
+  #   probably_matches = []
+  #   array.each do |copy|
+  #       @users.each do |any_user|
+  #         name_matches = []
+  #           if Text::Levenshtein.distance(copy.first_name, any_user.first_name) <=1
+  #             name_matches << any_user
+  #           else if Text::Levenshtein.distance(copy.last_name, any_user.last_name) <=1
+  #             name_matches << any_user
+  #           else
+  #             true
+  #         end
+  #         # if name_matches.length >1
+  #         #   puts(name_matches[1].first_name)
+  #         #   puts(name_matches[2].first_name)
+  #         # end
+  #         # puts(name_matches)
+  #       end
+  #     end
+  #   end
+  # end
 
 # finds potential matches based on first and last names sound
   def metaphone_names
@@ -79,10 +76,10 @@ class UsersController < ApplicationController
         all_last_names << Text::Metaphone.metaphone(user.last_name)
       end
     end
-    puts(second_copies[1])
+    puts(second_copies)
     end
     # .recheck finds names with similar spellings
-    self.recheck(second_copies)
+    # self.recheck(second_copies)
   end
 
 
