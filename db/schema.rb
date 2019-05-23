@@ -10,38 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_22_155327) do
+ActiveRecord::Schema.define(version: 2019_05_23_213800) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "duplicates", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "company"
-    t.string "email"
-    t.string "address1"
-    t.string "address2"
-    t.string "zip"
-    t.string "city"
-    t.string "state_long"
-    t.string "state"
-    t.string "phone"
-  end
-
-  create_table "uniques", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "company"
-    t.string "email"
-    t.string "address1"
-    t.string "address2"
-    t.string "zip"
-    t.string "city"
-    t.string "state_long"
-    t.string "state"
-    t.string "phone"
-  end
 
   create_table "users", force: :cascade do |t|
     t.string "first_name"
