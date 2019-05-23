@@ -4,7 +4,8 @@ require 'pry';
 require 'text';
 
 class UsersController < ApplicationController
-
+  @uniques = []
+  @duplicates = []
   # opens and closes a path to the database
   def db_connection
    begin
