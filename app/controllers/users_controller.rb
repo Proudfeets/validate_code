@@ -51,11 +51,11 @@ class UsersController < ApplicationController
           #   puts(name_matches[1].first_name)
           #   puts(name_matches[2].first_name)
           # end
-          puts(name_matches)
+          # puts(name_matches)
         end
       end
       probably_matches.each do |user|
-        puts(user.first_name)
+        # puts(user.first_name)
       end
     end
   end
@@ -77,7 +77,8 @@ class UsersController < ApplicationController
         all_first_names << Text::Metaphone.metaphone(user.first_name)
         all_last_names << Text::Metaphone.metaphone(user.last_name)
       end
-      end
+    end
+    puts(second_copies[1])
     end
     # .recheck finds names with similar spellings
     self.recheck(second_copies)
