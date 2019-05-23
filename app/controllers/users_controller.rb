@@ -55,9 +55,13 @@ class UsersController < ApplicationController
         all_last_names << Text::Metaphone.metaphone(user.last_name)
       end
     end
-    puts(second_copies)
+    end
+    @duplicates = second_copies
+    @duplicates.each do |person|
+      puts(person.first_name)
     end
   end
+
 
 
   # Pulls it all together into index, invokes get_users
