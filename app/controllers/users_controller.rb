@@ -57,17 +57,32 @@ class UsersController < ApplicationController
     end
     end
     @duplicates = second_copies
-    @duplicates.each do |person|
-      puts(person.first_name)
-    end
   end
 
-
+  def make_uniques
+    duplicates = []
+    @duplicates.each do |names|
+      duplicates << Text::Metaphone.metaphone(names.first_name)
+      duplicates << Text::Metaphone.metaphone(names.last_name)
+    end
+    @users.each do |user|
+      if @duplicates.include?Text::Metaphone.metaphone(user.first_name)
+        @duplicates << user
+      else if @duplicates.include?Text::Metaphone.metaphone(user.last_name);
+        @duplicates << user
+      else
+        @uniques << user
+      end
+      end
+      end
+    end
+  end
 
   # Pulls it all together into index, invokes get_users
     def index
       self.get_users
       self.metaphone_names
+      self.make_uniques
     end
 
 end
