@@ -4,7 +4,8 @@ require 'pry';
 require 'text';
 
 class UsersController < ApplicationController
-
+  @duplicates = []
+  @uniques = []
   # opens and closes a path to the database
   def db_connection
    begin
@@ -34,31 +35,7 @@ class UsersController < ApplicationController
     end
   end
 
-# this finds close spelling duplicates in the main array
-  def recheck(array)
-    probably_matches = []
-    array.each do |copy|
-        @users.each do |any_user|
-          name_matches = []
-            if Text::Levenshtein.distance(copy.first_name, any_user.first_name) <=1
-              name_matches << any_user
-            else if Text::Levenshtein.distance(copy.last_name, any_user.last_name) <=1
-              name_matches << any_user
-            else
-              true
-          end
-          # if name_matches.length >1
-          #   puts(name_matches[1].first_name)
-          #   puts(name_matches[2].first_name)
-          # end
-          puts(name_matches)
-        end
-      end
-      probably_matches.each do |user|
-        puts(user.first_name)
-      end
-    end
-  end
+
 
 # finds potential matches based on first and last names sound
   def metaphone_names
@@ -70,24 +47,56 @@ class UsersController < ApplicationController
       if all_first_names.include?Text::Metaphone.metaphone(user.first_name);
         second_copies << user
         all_first_names << Text::Metaphone.metaphone(user.first_name)
-      else if all_last_names.include?Text::Metaphone.metaphone(user.last_name);
+      elsif all_last_names.include?Text::Metaphone.metaphone(user.last_name);
         all_last_names << Text::Metaphone.metaphone(user.last_name)
         second_copies << user
       else
         all_first_names << Text::Metaphone.metaphone(user.first_name)
         all_last_names << Text::Metaphone.metaphone(user.last_name)
       end
-      end
     end
-    # .recheck finds names with similar spellings
-    self.recheck(second_copies)
+    @duplicates = second_copies
   end
 
+  def make_uniques
+    duplicates = []
+    uniques = []
+    @duplicates.each do |names|
+      duplicates << Text::Metaphone.metaphone(names.first_name)
+      duplicates << Text::Metaphone.metaphone(names.last_name)
+    end
+    @duplicates = []
+    @users.each do |user|
+      if duplicates.include?Text::Metaphone.metaphone(user.first_name)
+        @duplicates << user
+      elsif duplicates.include?Text::Metaphone.metaphone(user.last_name);
+        @duplicates << user
+      elsif !duplicates.include?Text::Metaphone.metaphone(user.first_name)
+        uniques << user
+      elsif !duplicates.include?Text::Metaphone.metaphone(user.last_name);
+        uniques << user
+      else
+        false
+      end
+    end
+    @uniques = uniques
+  end
 
   # Pulls it all together into index, invokes get_users
     def index
       self.get_users
       self.metaphone_names
+      self.make_uniques
+      puts("Suspected Duplicate Users:")
+      @duplicates.each do |user|
+
+        puts(user.first_name + "  " + user.last_name + "  " + user.company.to_s+ "  " +user.email.to_s+ "  " +user.address1.to_s+ "  " + user.address2.to_s+ "  " +user.city.to_s+ "  " +user.zip.to_s+ "  " +user.state.to_s+ "  " +user.state_long.to_s+ "  " +user.phone.to_s)
+      end
+      puts("Unique Users:")
+      @uniques.each do |user|
+      user.to_s
+        puts(user.first_name + "  " + user.last_name + "  " + user.company.to_s+ "  " +user.email.to_s+ "  " +user.address1.to_s+ "  " + user.address2.to_s+ "  " +user.city.to_s+ "  " +user.zip.to_s+ "  " +user.state.to_s+ "  " +user.state_long.to_s+ "  " +user.phone.to_s)
+      end
     end
 
 end
