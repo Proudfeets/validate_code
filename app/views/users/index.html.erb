@@ -1,31 +1,4 @@
 <% require 'text' %>
 
-<% @users = User.all %>
-<table>
-  <thead>
-    <tr>
-      <th> Name </th>
-      <th> Street Address</th>
-      <th> Email </th>
-      <th> Company</th>
-      <th> City</th>
-      <th> State</th>
-      <th> Zip</th>
-      <th> Phone</th>
-
-    </tr>
-  </thead>
-  <tbody><% @users.each do |users| %>
-      <tr>
-        <td><%= users.first_name + " " + users.last_name%></td>
-        <td> | <%= users.address1.to_s + ", " + users.address2.to_s %> </td>
-        <td> | <%= users.email.to_s%> </td>
-        <td> | <%= users.company.to_s%> </td>
-        <td> | <%= users.city.to_s%> </td>
-        <td> | <%= users.state.to_s%> </td>
-        <td> | <%= users.zip.to_s%> </td>
-        <td> | <%= users.phone.to_s%> </td>
-      </tr>
-      <% end %>
-  </tbody>
-</table>
+<h1>Welcome</h1>
+<h5> Refresh this page once to see the sorted user data in your terminal </h5>
